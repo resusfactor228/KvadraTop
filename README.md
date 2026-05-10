@@ -140,7 +140,7 @@ sudo apt-get install build-essential cmake libboost-system-dev libssl-dev
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
 sudo apt-get install -y nodejs
 
-P.S. Here might be some problems with versions of packets but I'm pretty sure you can resolve them by yourself...
+# P.S. Here might be some problems with versions of packets but I'm pretty sure you can resolve them by yourself...
 ```
 
 ---
