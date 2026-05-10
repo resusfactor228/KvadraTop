@@ -211,7 +211,7 @@ The dashboard auto-reconnects when the WebSocket connection drops (e.g. after re
 
 ---
 
-## Screenshot
+## Screenshots
 
 ![Kvadra Top picture 1](.pic/README/kvadra_top_1.png)
 ![Kvadra Top picture 2](.pic/README/kvadra_top_2.png)
