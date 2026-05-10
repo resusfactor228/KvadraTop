@@ -1,0 +1,571 @@
+/* ==========================================================================
+   KvadraTop — Dark system monitor theme
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS custom properties (design tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-primary:    #0d1117;
+  --bg-secondary:  #161b22;
+  --bg-panel:      #1c2128;
+  --bg-hover:      #222830;
+
+  --text-primary:  #e6edf3;
+  --text-secondary:#8b949e;
+  --text-muted:    #484f58;
+
+  --accent-green:  #39d353;
+  --accent-blue:   #58a6ff;
+  --accent-orange: #e3b341;
+  --accent-red:    #f85149;
+  --accent-purple: #bc8cff;
+  --accent-cyan:   #39c5cf;
+
+  --border-color:  #30363d;
+
+  --header-height: 48px;
+  --panel-radius:  8px;
+  --panel-padding: 16px;
+  --gap:           12px;
+}
+
+/* --------------------------------------------------------------------------
+   Reset & base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbar styling (WebKit)
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   App header
+   -------------------------------------------------------------------------- */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+  gap: 16px;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.app-header__logo {
+  font-size: 20px;
+  color: var(--accent-blue);
+}
+
+.app-header__title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+}
+
+.app-header__info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.app-header__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-header__label {
+  color: var(--text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.app-header__value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Connection status badge */
+.status-online,
+.status-offline {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+}
+
+.status-online {
+  background: rgba(57, 211, 83, 0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(57, 211, 83, 0.3);
+}
+
+.status-offline {
+  background: rgba(248, 81, 73, 0.15);
+  color: var(--accent-red);
+  border: 1px solid rgba(248, 81, 73, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Dashboard grid
+   -------------------------------------------------------------------------- */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+  padding: calc(var(--header-height) + var(--gap)) var(--gap) var(--gap);
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Panel base
+   -------------------------------------------------------------------------- */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--panel-radius);
+  padding: var(--panel-padding);
+  overflow: hidden;
+  min-width: 0; /* prevent grid blowout */
+}
+
+.panel--wide {
+  grid-column: span 2;
+}
+
+.panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panel__title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Big number (total CPU%, memory usage%)
+   -------------------------------------------------------------------------- */
+.big-number {
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+
+.usage--low    { color: var(--accent-green);  }
+.usage--medium { color: var(--accent-orange); }
+.usage--high   { color: var(--accent-red);    }
+
+/* --------------------------------------------------------------------------
+   Stat row (label / value pairs)
+   -------------------------------------------------------------------------- */
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  flex-wrap: wrap;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.stat-label--right {
+  margin-left: auto;
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-badge {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Progress bars (memory, swap, disk util)
+   -------------------------------------------------------------------------- */
+.progress-bar {
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.progress-bar--swap {
+  height: 4px;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: var(--accent-green);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.progress-bar__fill--swap {
+  background: var(--accent-purple);
+}
+
+.progress-bar__fill--disk {
+  background: var(--accent-orange);
+}
+
+/* Colour changes based on usage level */
+.progress-bar__fill.usage--medium { background: var(--accent-orange); }
+.progress-bar__fill.usage--high   { background: var(--accent-red); }
+
+/* --------------------------------------------------------------------------
+   CPU core grid
+   -------------------------------------------------------------------------- */
+.core-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.core-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.core-bar__label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  width: 36px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.core-bar__track {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.core-bar__fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease, background-color 0.3s;
+}
+
+.core-bar__fill.usage--low    { background: var(--accent-green);  }
+.core-bar__fill.usage--medium { background: var(--accent-orange); }
+.core-bar__fill.usage--high   { background: var(--accent-red);    }
+
+.core-bar__value {
+  font-size: 10px;
+  color: var(--text-secondary);
+  width: 30px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Network panel
+   -------------------------------------------------------------------------- */
+.net-iface-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.net-iface {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.net-iface__name {
+  font-weight: 600;
+  color: var(--accent-blue);
+  font-size: 12px;
+  width: 80px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.net-iface__rates {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+}
+
+.net-rate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.net-rate__arrow {
+  font-size: 10px;
+}
+
+.net-rate--rx .net-rate__arrow { color: var(--accent-green); }
+.net-rate--tx .net-rate__arrow { color: var(--accent-orange); }
+
+.net-rate__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Disk panel
+   -------------------------------------------------------------------------- */
+.disk-device-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.disk-device {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.disk-device__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.disk-device__name {
+  font-weight: 600;
+  color: var(--accent-purple);
+  font-size: 12px;
+}
+
+.disk-device__util {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.disk-device__rates {
+  display: flex;
+  gap: 16px;
+}
+
+.disk-rate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.disk-rate__label {
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.disk-rate__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.disk-util-bar {
+  height: 3px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.disk-util-bar__fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  background: var(--accent-orange);
+}
+
+/* --------------------------------------------------------------------------
+   Process table
+   -------------------------------------------------------------------------- */
+.table-scroll {
+  max-height: 380px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+.process-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  table-layout: fixed;
+}
+
+.process-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-secondary);
+}
+
+.process-table th {
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.process-table th[data-key]:hover {
+  color: var(--text-primary);
+}
+
+/* Sort indicators */
+.process-table th.sort-desc::after { content: ' ▼'; font-size: 9px; }
+.process-table th.sort-asc::after  { content: ' ▲'; font-size: 9px; }
+
+.process-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.process-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+/* Column widths */
+.col-pid     { width: 60px;  color: var(--text-secondary); }
+.col-name    { width: 160px; }
+.col-user    { width: 90px;  color: var(--text-secondary); }
+.col-num     { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Process state badges */
+.state-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.state-R { background: rgba(57, 211, 83, 0.2);  color: var(--accent-green);  }
+.state-S { background: rgba(88, 166, 255, 0.2); color: var(--accent-blue);   }
+.state-D { background: rgba(227, 179, 65, 0.2); color: var(--accent-orange); }
+.state-Z { background: rgba(248, 81, 73, 0.2);  color: var(--accent-red);    }
+.state-T { background: rgba(188, 140, 255, 0.2);color: var(--accent-purple); }
+.state-I { background: rgba(72, 79, 88, 0.3);   color: var(--text-muted);    }
+
+/* --------------------------------------------------------------------------
+   Chart.js canvas — prevent layout thrash
+   -------------------------------------------------------------------------- */
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — collapse to single column on narrow screens
+   -------------------------------------------------------------------------- */
+@media (max-width: 800px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .panel--wide {
+    grid-column: span 1;
+  }
+
+  .app-header__info {
+    gap: 10px;
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KvadraTop</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <!-- ===================================================================
+       Fixed header bar: branding + connection status + system info
+  ==================================================================== -->
+  <header class="app-header">
+    <div class="app-header__brand">
+      <span class="app-header__logo">&#9680;</span>
+      <span class="app-header__title">KvadraTop</span>
+    </div>
+    <div class="app-header__info">
+      <span class="app-header__item">
+        <span class="app-header__label">Host</span>
+        <span id="sys-hostname" class="app-header__value">—</span>
+      </span>
+      <span class="app-header__item">
+        <span class="app-header__label">Uptime</span>
+        <span id="sys-uptime" class="app-header__value">—</span>
+      </span>
+      <span id="connection-status" class="status-offline">Disconnected</span>
+    </div>
+  </header>
+
+  <!-- ===================================================================
+       Main dashboard grid
+  ==================================================================== -->
+  <main class="dashboard">
+
+    <!-- CPU panel -->
+    <section class="panel panel--cpu" aria-label="CPU metrics">
+    </section>
+
+    <!-- Memory panel -->
+    <section class="panel panel--memory" aria-label="Memory metrics">
+    </section>
+
+    <!-- Network panel -->
+    <section class="panel panel--network" aria-label="Network metrics">
+    </section>
+
+    <!-- Disk panel -->
+    <section class="panel panel--disk" aria-label="Disk metrics">
+    </section>
+
+    <!-- Process table — spans full width -->
+    <section class="panel panel--processes panel--wide" aria-label="Process list">
+    </section>
+
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
